@@ -1,0 +1,90 @@
+#include<iostream>
+#include<cmath>
+
+using namespace std;
+
+#define max 30000000
+
+int pcount=0;
+bool checkprime[max];
+long long int prime[2000000];
+
+
+
+void setprime()
+{
+    int check=sqrt(max);
+    int primenum=0;
+
+    prime[primenum++]=2;
+
+
+    for(int i=3;i<=check;i+=2)
+    {
+
+        if(checkprime[i]==0)
+        {
+
+            for(int j=i*i;j<max;j+=2*i)
+            {
+                checkprime[j]=1;
+            }
+        }
+    }
+
+    for(int i=3;i<max;i+=2)
+    {
+        if(checkprime[i]==0)
+            prime[primenum++]=i;
+    }
+    pcount=primenum;
+}
+
+
+int main()
+{
+    setprime();
+
+    long long int num;
+    int ecount;
+
+    while(cin>>num)
+    {
+        int ans=1;
+
+        for(int i=0;i<pcount;i++)
+        {
+
+            if(prime[i]*prime[i]>num)
+                break;
+            if(num%prime[i]==0)
+            {
+                ecount=1;
+                num/=prime[i];
+
+                while(num%prime[i]==0)
+                {
+                    ecount++;
+                    num/=prime[i];
+                }
+                if(i==0)
+                    continue;
+                ans*=(ecount+1);
+            }
+
+            if(num==1)
+                break;
+
+        }
+        if(num!=1)
+        {
+            ans*=2;
+        }
+        cout<<ans<<endl;
+    }
+
+
+
+
+
+}
